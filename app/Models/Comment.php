@@ -3,7 +3,6 @@
 
 namespace App\Models;
 
-
 class Comment
 {
     private int $id;

@@ -12,7 +12,6 @@
 <h2>Comment Section</h2>
 
 <ul>
-<!--    --><?php //var_dump($comments) ?>
     <?php foreach ($comments as $comment): ?>
         <li><?php echo $comment->name() . ': ' . $comment->content();?></li>
     <?php endforeach; ?>
