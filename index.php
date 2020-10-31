@@ -37,10 +37,15 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 
     $r->addRoute('GET', '/', $namespace . 'ArticlesController@index');
 
-    $r->addRoute('GET', '/articles', $namespace . 'ArticlesController@index');
+    $r->addRoute('GET', '/articles/create', $namespace . 'ArticlesController@create');
+    $r->addRoute('POST', '/articles/store', $namespace . 'ArticlesController@store');
     $r->addRoute('GET', '/articles/{id}', $namespace . 'ArticlesController@show');
     $r->addRoute('POST', '/articles/{id}/like', $namespace . 'ArticlesController@like');
 
+    $r->addRoute('GET', '/register', $namespace . 'UsersController@register');
+    $r->addRoute('POST', '/store', $namespace . 'UsersController@store');
+    $r->addRoute('GET', '/login', $namespace . 'UsersController@login');
+    $r->addRoute('POST', '/login_check', $namespace . 'UsersController@loginCheck');
 });
 
 // Fetch method and URI from somewhere

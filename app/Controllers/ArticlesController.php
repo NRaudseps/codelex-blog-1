@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Article;
+use App\Models\Comment;
+use App\Models\Tag;
 
 class ArticlesController
 {
@@ -51,6 +53,42 @@ class ArticlesController
             $articleQuery['likes']
         );
 
+        $commentsQuery = query()
+            ->select('*')
+            ->from('comments')
+            ->where('article_id = ' . $article->id())
+            ->orderBy('created_at', 'asc')
+            ->execute()
+            ->fetchAllAssociative();
+
+        $tagsQuery = query()
+            ->select('*')
+            ->from('tags')
+            ->where('id IN (SELECT tag_id FROM article_tag WHERE article_id = :article_id)')
+            ->setParameter('article_id', $article->id())
+            ->execute()
+            ->fetchAllAssociative();
+
+        $tags = [];
+        foreach ($tagsQuery as $tag){
+            $tags[] = new Tag(
+                (int) $tag['id'],
+                $tag['name'],
+                $tag['created_at']
+            );
+        }
+
+        $comments = [];
+        foreach ($commentsQuery as $commentQuery) {
+            $comments[] = new Comment(
+                (int) $commentQuery['id'],
+                $commentQuery['article_id'],
+                $commentQuery['name'],
+                $commentQuery['content'],
+                $commentQuery['created_at']
+            );
+        }
+
         return require_once __DIR__  . '/../Views/ArticlesShowView.php';
     }
 
@@ -75,5 +113,16 @@ class ArticlesController
         }
 
         header('Location: /');
+    }
+
+    public function create()
+    {
+         return require_once __DIR__ . '/../Views/ArticlesCreateView.php';
+    }
+
+    public function store()
+    {
+
+        var_dump($_POST);
     }
 }
