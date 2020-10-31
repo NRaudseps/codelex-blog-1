@@ -119,10 +119,4 @@ class ArticlesController
     {
          return require_once __DIR__ . '/../Views/ArticlesCreateView.php';
     }
-
-    public function store()
-    {
-
-        var_dump($_POST);
-    }
 }

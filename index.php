@@ -42,6 +42,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/articles/{id}', $namespace . 'ArticlesController@show');
     $r->addRoute('POST', '/articles/{id}/like', $namespace . 'ArticlesController@like');
 
+    $r->addRoute('POST', '/comment', $namespace . 'CommentsController@store');
+    $r->addRoute('POST', '/comment/delete', $namespace . 'CommentsController@delete');
+
     $r->addRoute('GET', '/register', $namespace . 'UsersController@register');
     $r->addRoute('POST', '/store', $namespace . 'UsersController@store');
     $r->addRoute('GET', '/login', $namespace . 'UsersController@login');
