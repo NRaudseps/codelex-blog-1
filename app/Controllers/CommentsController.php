@@ -3,41 +3,22 @@
 
 namespace App\Controllers;
 
+use App\Services\Comments\DeleteCommentService;
+use App\Services\Comments\StoreCommentService;
 
 class CommentsController
 {
     public function store()
     {
-        $articleId = $_POST['id'];
-        $name = $_POST['name'];
-        $content = $_POST['content'];
+        (new StoreCommentService())->execute($_POST['id'], $_POST['name'], $_POST['content']);
 
-        $insertComment = query()
-            ->insert('comments')
-            ->values([
-                'article_id' => '?',
-                'name' => '?',
-                'content' => '?',
-            ])
-            ->setParameter(0, $articleId)
-            ->setParameter(1, $name)
-            ->setParameter(2, $content)
-            ->execute();
-
-        header('Location: /articles/' . $articleId);
+        header('Location: /articles/' . $_POST['id']);
     }
 
     public function delete()
     {
-        $id = $_POST['id'];
-        $articleID = $_POST['article_id'];
+        (new DeleteCommentService())->execute($_POST['id']);
 
-        $deleteComment = query()
-            ->delete('comments')
-            ->where('id = :id')
-            ->setParameter('id', $id)
-            ->execute();
-
-        header('Location: /articles/' . $articleID);
+        header('Location: /articles/' . $_POST['article_id']);
     }
 }
